@@ -1,0 +1,247 @@
+
+
+/* ================= 视频内互动层 ================= */
+.anim-ask{margin-top:14px; background:linear-gradient(160deg,#fff6e0,#ffe9bd); border-radius:18px;
+  padding:16px 18px; box-shadow:0 8px 20px rgba(200,140,40,.16); animation:animAskIn .34s ease}
+@keyframes animAskIn{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
+.anim-ask-head{display:flex; align-items:flex-start; gap:10px; font-size:18px; font-weight:650; color:#5b4526; margin-bottom:12px}
+.anim-ask-who{flex:0 0 auto; background:#ffc94d; color:#5b4526; border-radius:99px; padding:2px 13px; font-size:14px}
+.anim-ask-opts{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px}
+.anim-ask-opt{min-height:52px; border-radius:14px; border:2px solid #f0d9a8; background:#fffdf6;
+  font-size:16px; font-weight:650; color:#5b4526; cursor:pointer; transition:.16s; padding:10px 14px}
+.anim-ask-opt:hover:not(:disabled){border-color:#e8890f; transform:translateY(-2px)}
+.anim-ask-opt.is-right{background:#e8f6e8; border-color:#7fc47f; color:#3f7a3f}
+.anim-ask-opt.is-soft{border-color:#e8890f; background:#fff3cf; animation:animShake .5s ease}
+@keyframes animShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.anim-ask-fb{margin-top:12px; padding:11px 15px; border-radius:12px; font-size:15.5px; display:flex; gap:9px; align-items:center}
+.anim-ask-fb.is-ok{background:#e8f6e8; color:#3f7a3f}
+.anim-ask-fb.is-soft{background:#fffdf6; color:#a07a2c}
+.anim-answered{margin-top:12px; padding:10px 15px; border-radius:12px; background:#eef7e8; color:#4a7a3a; font-size:15px}
+
+
+/* ================= 打破第四面墙 =================
+ *
+ * ⚠️ 这些类以前叫 .anim-look / .anim-cheer / .anim-sorry，作用在【整个画布】上。
+ * 后果是「转过身来问孩子」会把画面连背景一起转到 -6°，看起来就是「歪了」。
+ * 改名成 .pb-look / .pb-cheer / .pb-sorry，并且：
+ *   · 去掉所有旋转（角色用表情和姿态表达，不靠转画布）
+ *   · 幅度压到很小，观众感知的是「凑近了一点」，不是「画面歪了」
+ */
+@keyframes pbLookAtYou {
+  0%   { transform: scale(1) translateY(0) }
+  45%  { transform: scale(1.035) translateY(4px) }
+  100% { transform: scale(1.03) translateY(3px) }
+}
+/* 答对：原地蹦跳（不转体，只上下弹） */
+@keyframes pbCheerJump {
+  0%   { transform: translateY(0) scale(1,1) }
+  18%  { transform: translateY(12px) scale(1.14,.86) }
+  45%  { transform: translateY(-34px) scale(.92,1.1) }
+  70%  { transform: translateY(6px) scale(1.1,.9) }
+  100% { transform: translateY(0) scale(1,1) }
+}
+/* 答错：肩膀垮下来、整个人小小地缩一下 */
+@keyframes pbSorryDroop {
+  0%   { transform: translateY(0) scale(1,1) }
+  35%  { transform: translateY(7px) scale(1.03,.95) }
+  100% { transform: translateY(5px) scale(1.02,.96) }
+}
+.pb-look  { animation: pbLookAtYou .7s ease-out forwards; transform-origin: 50% 88%; transform-box: fill-box }
+.pb-cheer { animation: pbCheerJump 1.1s ease-in-out }
+.pb-sorry { animation: pbSorryDroop .8s ease-out forwards; transform-origin: 50% 88%; transform-box: fill-box }
+
+/* ================= 摄像机信息条 ================= */
+.anim-cam2{font-size:13px; color:#8a5a12; background:#fff6e0; border-radius:99px; padding:3px 12px}
+.anim-export{margin-left:auto}
+
+
+
+
+/* 小屏（笔记本 800 高）压缩下半部分，保证控制条也在一屏内 */
+@media (max-height:850px){
+  .anim-sub{padding:10px 14px; margin-bottom:8px}
+  .anim-say{font-size:15.5px; margin-bottom:4px}
+  .anim-line{font-size:17px; line-height:1.5}
+  .anim-pinyin{font-size:12px}
+  .anim-ambient{margin:7px 0; font-size:12px}
+  .anim-info{margin:2px 0 7px}
+  .anim-ctrl{margin-top:8px; padding:8px 10px}
+  .anim-ctrl .pb-btn{min-height:36px; font-size:14px; padding:0 12px}
+}
+
+/* ================= 信息条与控制条 ================= */
+/* 信息条在画面上方，导出按钮靠右，不会被画面压住 */
+.anim-info{margin:2px 0 10px}
+.anim-export{margin-left:auto; white-space:nowrap}
+
+
+
+/* ================= 镜间过渡 =================
+ * 硬切对低幼观众是「突然跳变」，容易受惊。
+ * 换镜时让画面轻轻淡入 + 微微上浮，0.34 秒，柔和但明确。
+ */
+.anim-stage.is-cut{ animation: pbShotIn .34s ease-out both }
+@keyframes pbShotIn{
+  0%   { opacity:0; transform: translateY(8px) }
+  100% { opacity:1; transform: translateY(0) }
+}
+/* 镜与镜之间的「翻页感」：一条很淡的暖色扫过 */
+.anim-stage.is-cut::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(100deg, rgba(255,246,224,0) 0%, rgba(255,246,224,.85) 45%, rgba(255,246,224,0) 100%);
+  animation: pbWipe .34s ease-out both;
+}
+@keyframes pbWipe{
+  0%   { transform: translateX(-100%) }
+  100% { transform: translateX(100%) }
+}
+.anim-stage{ position:relative }
+
+/* ================= 开关按钮状态 ================= */
+.pb-btn.is-round{min-width:44px; padding:0 12px; font-size:16px}
+.pb-btn.is-on{
+  background:#e8890f; border-color:#e8890f; color:#fff;
+  box-shadow:0 3px 10px rgba(232,137,15,.28);
+}
+/* 字幕关闭时只留角色台词，正文与拼音收起（大屏投屏用） */
+body.pb-nosub .anim-line,
+body.pb-nosub .anim-pinyin{display:none}
+body.pb-nosub .anim-sub{padding:10px 16px}
+
+/* ================= 全屏时字幕做成浮层，省下的高度给画面 ================= */
+/* 全屏模式下把台词卡与控制条压成画面上的一条浮层，
+   画面因此能再涨 130px 左右 —— 投屏时这点很值。 */
+body.pb-full .anim-outer{ justify-content:flex-start; padding-top:10px }
+body.pb-full .anim-sub{
+  position:fixed; left:50%; transform:translateX(-50%);
+  bottom:84px; width:min(1100px,94vw);
+  background:rgba(255,253,246,.95);
+  backdrop-filter:blur(10px);
+  box-shadow:0 8px 26px rgba(120,90,50,.20);
+  z-index:8; margin:0;
+}
+body.pb-full .anim-sub .anim-line{font-size:19px}
+body.pb-full .anim-ctrl{
+  position:fixed; left:50%; transform:translateX(-50%);
+  bottom:12px; width:min(1100px,94vw); z-index:9;
+  background:rgba(255,253,246,.97);
+}
+body.pb-full .anim-info{
+  position:fixed; top:10px; left:50%; transform:translateX(-50%);
+  width:min(1100px,94vw); z-index:9;
+}
+body.pb-full .anim-body{padding-bottom:0}
+/* 全屏时按钮紧凑一点：8 个按钮要在一行里放得下 */
+body.pb-full .anim-ctrl{padding:8px 10px; gap:8px; flex-wrap:wrap; justify-content:center}
+body.pb-full .anim-ctrl .pb-btn{min-height:36px; font-size:13.5px; padding:0 11px}
+body.pb-full .anim-ctrl .pb-btn.is-round{min-width:36px; padding:0 9px; font-size:15px}
+body.pb-full .anim-ctrl .pb-btn.is-main{font-weight:700}
+
+
+/* ================= 播放态：把高度让给画面 ================= */
+/* 顶部那段「AI 动画片 + 说明」只在刚进来时需要看，进播放态就收起，
+   省下的 130~160px 全给画面。鼠标移到顶部会重新出现。 */
+body.pb-playing .page-head{
+  max-height:0; overflow:hidden; opacity:0;
+  margin:0; padding:0;
+  transition:max-height .28s ease, opacity .2s ease, margin .28s ease;
+}
+body.pb-playing .page-head:hover,
+body.pb-playing .page-head:focus-within{
+  max-height:260px; opacity:1; margin-bottom:12px;
+}
+body.pb-playing .section{padding-top:12px}
+
+/* ================= 全屏投屏模式 ================= */
+body.pb-full{overflow:hidden}
+body.pb-full .site-head,
+body.pb-full .site-foot,
+body.pb-full .page-head,
+body.pb-full .pb-float{display:none!important}
+body.pb-full .section{padding:0!important; max-width:none!important}
+body.pb-full .anim-outer{
+  position:fixed; inset:0; z-index:900;
+  background:#fffdf6;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; padding:14px 18px 12px;
+}
+body.pb-full .anim-stage{
+  background:transparent; box-shadow:none; border-radius:0;
+  flex:0 0 auto;
+}
+body.pb-full .anim-info{margin:0; order:-1}
+body.pb-full .anim-ctrl{
+  position:static; width:100%; max-width:1000px;
+  box-shadow:0 -4px 14px rgba(150,110,60,.08);
+}
+/* 全屏时全部回到正常文档流，排在画面下方 —— 不遮画面，也不会被挤出屏幕 */
+body.pb-full .anim-sub,
+body.pb-full .anim-ask{
+  position:static; transform:none;
+  width:min(1000px, 96vw); margin:8px auto 0;
+}
+body.pb-full .anim-ambient{display:none}
+body.pb-full .anim-info{width:min(1000px, 96vw); margin:0 auto}
+
+
+/* 台词卡吸在控制条上方：画面变大后它会被推到屏幕外，
+   但台词是理解剧情的关键，必须一直看得到。 */
+.anim-sub{
+  position:sticky; bottom:72px; z-index:5;
+  background:rgba(255,253,246,.97);
+  backdrop-filter:blur(6px);
+}
+.anim-ambient{margin:6px 0 0}
+
+/* 控制条必须够得着 */
+/* 画面放大后，下面的内容会超出一屏 —— 所以控制条吸在视口底部，
+   滚动到哪儿按钮都够得着，不会出现「看得见画面、点不到按钮」。 */
+.anim-ctrl{
+  position:sticky; bottom:0; z-index:6;
+  margin-top:12px; padding:10px 12px;
+  background:rgba(255,253,246,.97);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(200,170,120,.24);
+  border-radius:14px;
+  box-shadow:0 -8px 22px rgba(150,110,60,.10);
+}
+.anim-ctrl .pb-btn{min-height:40px}
+@media (max-width:720px){
+  .anim-ctrl{flex-wrap:wrap; gap:8px}
+  .anim-ctrl .pb-btn{flex:1 1 44%}
+}
+
+/* ================= 动画舞台：必须整幅可见 ================= */
+/* 之前 SVG 按宽度撑满（1174px 宽 → 734px 高），而视口只有 600 出头，
+   结果角色下半截落在屏幕外，看起来就像「被切了 / 歪了」。
+   这里改成按视口高度约束，保证整幅动画一眼看全。 */
+.anim-stage{
+  display:flex; align-items:center; justify-content:center;
+  background:#fffdf6; overflow:hidden;
+}
+/* 只给高度上限，宽度按 16:10 自动算 —— 两个都写 auto 会被拉伸 */
+.anim-stage > svg{
+  height:min(58vh, 520px);
+  width:auto;
+  max-width:100%;
+  display:block;
+}
+@media (max-height:760px){ .anim-stage > svg{ height:48vh } }
+@media (max-height:640px){ .anim-stage > svg{ height:42vh } }
+
+/* ================= AI 动画播放器 ================= */
+/* 只保留背景与圆角；尺寸规则统一在上面那一套（否则会互相覆盖，导致角色被切） */
+.anim-stage{border-radius:20px; overflow:hidden; box-shadow:0 12px 30px rgba(150,110,60,.14)}
+.anim-info{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:14px 0 8px}
+.anim-step{font-size:13px; font-weight:750; color:#fff; background:#e8890f; border-radius:99px; padding:3px 12px}
+.anim-act{font-size:14px; font-weight:700; color:#5b4a38; background:#fff3cf; border-radius:99px; padding:3px 12px}
+.anim-arc{font-size:13px; color:#6f9f5c; background:#eef7e8; border-radius:99px; padding:3px 12px}
+.anim-cam{font-size:13px; color:#5aa6c9; background:#eef7fb; border-radius:99px; padding:3px 12px}
+.anim-sub{background:#fffdf6; border-radius:16px; padding:14px 18px; box-shadow:0 6px 16px rgba(150,110,60,.08)}
+.anim-say{font-size:17px; font-weight:650; color:#5b4a38; margin-bottom:6px}
+.anim-who{display:inline-block; margin-right:8px; background:#ffc94d; color:#5b4526; border-radius:99px; padding:1px 11px; font-size:14px}
+.anim-line{font-size:19px; line-height:1.6; color:#3f3428}
+.anim-pinyin{font-size:13px; color:#a08a6a; letter-spacing:1px; margin-top:4px}
+.anim-ambient{font-size:13px; color:#7a6444; margin:10px 0}
+.anim-amb-t{font-weight:700}
+.anim-ctrl{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px}

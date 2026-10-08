@@ -1,0 +1,16 @@
+# 运行期数据与本地配置
+data/students/
+data/config.json
+data/anim-enriched.json
+node_modules/
+*.log
+
+# 构建 / 测试产物
+.build/
+.btest/
+__pycache__/
+
+# 视频导出中间产物（保留最终 video.mp4 与 poster.jpg）
+data/videos/*/chrome/
+data/videos/*/audio/
+data/videos/*/frames/

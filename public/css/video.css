@@ -1,0 +1,41 @@
+
+/* ================= AI 视频 ================= */
+.video-layout{display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:start}
+@media (max-width:1000px){.video-layout{grid-template-columns:1fr}}
+.video-side{background:#fffdf6; border-radius:20px; padding:18px; box-shadow:0 10px 26px rgba(150,110,60,.1)}
+.video-main{min-width:0}
+.video-h{font-size:16px; margin:16px 0 10px; color:#5b4a38}
+.video-h:first-child{margin-top:0}
+.video-books{display:flex; flex-direction:column; gap:9px; max-height:360px; overflow-y:auto; padding-right:4px}
+.video-book{display:grid; grid-template-columns:70px 1fr; gap:10px; align-items:center; text-align:left;
+  padding:8px; border-radius:14px; border:2px solid transparent; background:#fffaf0; cursor:pointer; transition:.16s}
+.video-book:hover{border-color:#f0c98a}
+.video-book.is-on{border-color:#e8890f; background:linear-gradient(150deg,#fff6e0,#ffe9bd)}
+.video-book-cover{border-radius:10px; overflow:hidden; line-height:0}
+.video-book-cover svg{width:100%; height:auto; display:block}
+.video-book-meta{display:flex; flex-direction:column; gap:2px; min-width:0}
+.video-book-meta b{font-size:14.5px}
+.video-book-age{font-size:11px; font-weight:700; color:#7a5a2c; background:#fff3cf; border-radius:99px; padding:2px 8px; align-self:flex-start}
+.video-book-concept{font-size:11.5px; color:#8a7a5c}
+.video-opts{display:flex; flex-direction:column; gap:8px; margin:6px 0 14px}
+.video-check{display:flex; align-items:center; gap:8px; font-size:14px; color:#5b4a38; cursor:pointer}
+.video-check input{width:17px; height:17px; accent-color:#e8890f}
+.video-stage{background:#fffdf6; border-radius:20px; padding:16px; box-shadow:0 10px 26px rgba(150,110,60,.1); min-height:300px}
+.video-player{width:100%; max-height:62vh; border-radius:14px; background:#000; display:block}
+.video-result h3{font-size:16px; margin:0 0 10px}
+.video-actions{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:11px}
+.video-progress{padding:22px 18px}
+.video-progress-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px}
+.video-step{font-size:15px; font-weight:650; color:#5b4a38; margin:0}
+.video-pct{font-size:14px; color:#e8890f; font-weight:750}
+.video-bar{height:12px; border-radius:99px; background:#f2e7d4; overflow:hidden}
+.video-bar i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#f0a94e,#e8890f); transition:width .4s ease}
+.video-list{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px}
+.video-thumb{display:block; text-align:left; padding:0; border:none; border-radius:14px; overflow:hidden;
+  background:#fffaf0; cursor:pointer; box-shadow:0 6px 16px rgba(150,110,60,.12); transition:.16s}
+.video-thumb:hover{transform:translateY(-3px); box-shadow:0 12px 24px rgba(150,110,60,.2)}
+.video-thumb img{width:100%; aspect-ratio:16/9; object-fit:cover; display:block}
+.video-thumb-empty{width:100%; aspect-ratio:16/9; display:grid; place-items:center; font-size:30px; background:#fff3cf}
+.video-thumb-meta{padding:8px 10px; display:flex; flex-direction:column; gap:2px}
+.video-thumb-meta b{font-size:13.5px}
+.video-thumb-meta span{font-size:11.5px; color:#8a7a5c}

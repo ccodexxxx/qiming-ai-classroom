@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ec">
+<meta name="description" content="启明 AI 课堂 · 面向 K12 的人工智能通识课：会按年级调深浅的 AI 老师、动画绘本、编程实践与游戏化练习。">
+<title>{{title}} · 启明 AI 课堂</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231f6f5c'/%3E%3Cpath d='M30 62c0-14 9-24 20-24s20 10 20 24' fill='none' stroke='%23f7f4ec' stroke-width='9' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='72' r='7' fill='%23e8a33d'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/pages.css">
+{{{extraHead}}}
+</head>
+<body class="page-{{{active}}}">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="currentColor"/><path d="M30 62c0-14 9-24 20-24s20 10 20 24" fill="none" stroke="#f7f4ec" stroke-width="9" stroke-linecap="round"/><circle cx="50" cy="72" r="7" fill="#e8a33d"/></svg>
+      </span>
+      <span class="brand-text">
+        <b>启明 AI 课堂</b>
+        <small>K12 人工智能通识</small>
+      </span>
+    </a>
+
+    {{{nav}}}
+
+    <div class="header-side">
+      {{#if llmActive}}
+      <span class="chip chip-live" title="已接入大模型，回答由模型生成">大模型在线</span>
+      {{/if}}
+      {{#if student}}
+      <a class="chip chip-user" href="/dashboard" title="我的学习档案">
+        <span class="chip-avatar">{{student.avatar}}</span>
+        <span class="chip-name">{{student.name}}</span>
+        <span class="chip-grade">{{student.grade}} 年级</span>
+      </a>
+      {{/if}}
+      <button class="icon-btn" id="btn-settings" type="button" title="设置" aria-label="设置">⚙</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+{{{body}}}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><b>启明 AI 课堂</b> · 面向 K12 的人工智能通识课教学助手</p>
+    <p class="muted">对话讲评 · 动画绘本 · 编程实践 · 游戏化练习 · 学情看板，五种形态覆盖同一套课程内容，并按年级自动调整深浅。</p>
+    <p class="muted small">服务端零依赖实现，学习数据保存在本机 <code>data/</code> 目录；可在「设置」中接入任意 OpenAI 兼容大模型。</p>
+  </div>
+</footer>
+
+<div class="settings-mask" id="settings-mask" hidden>
+  <div class="settings-panel" role="dialog" aria-modal="true" aria-label="设置">
+    <div class="settings-head">
+      <h2>设置</h2>
+      <button class="icon-btn" id="settings-close" type="button" aria-label="关闭">✕</button>
+    </div>
+    <div class="settings-body" id="settings-body">
+      <p class="muted">正在加载…</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toasts" aria-live="polite"></div>
+
+<script src="/js/app.js"></script>
+{{{extraScripts}}}
+</body>
+</html>
